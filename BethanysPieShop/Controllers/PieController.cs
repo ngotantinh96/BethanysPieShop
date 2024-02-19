@@ -14,11 +14,24 @@ namespace BethanysPieShop.Controllers
             this.pieRepository = pieRepository;
             this.categoryRepository = categoryRepository;
         }
+
         public IActionResult List()
         {
             ViewBag.CurrentCategory = "Cheese cakes";
             var pieListViewModel = new PieListViewModel(pieRepository.AllPies, "Cheese cakes");
             return View(pieListViewModel);
+        }
+
+        public IActionResult Details(int id)
+        {
+            var pie = pieRepository.GetPieById(id);
+
+            if (pie is null)
+            {
+                return NotFound();
+            }
+
+            return View(pie);
         }
     }
 }
