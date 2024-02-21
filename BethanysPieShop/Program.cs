@@ -6,6 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 //Service registration
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IPieRepository, PieRepository>();
+builder.Services.AddScoped<IShoppingCart, ShoppingCart>(ShoppingCart.GetCart);
+
+builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<BethanysPieShopDbContext>(options => 
@@ -16,6 +20,7 @@ var app = builder.Build();
 
 //Middle ware configuration
 app.UseStaticFiles();
+app.UseSession();
 
 if(app.Environment.IsDevelopment())
 {
