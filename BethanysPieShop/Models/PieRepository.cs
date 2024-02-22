@@ -15,10 +15,7 @@ public class PieRepository : IPieRepository
 
     public IEnumerable<Pie> PiesOfTheWeek => dbContext.Pies.Include(x => x.Category).Where(x => x.IsPieOfTheWeek);
 
-    public Pie? GetPieById(int pieId) => dbContext.Pies.FirstOrDefault(x => x.PieId == pieId); 
+    public Pie? GetPieById(int pieId) => dbContext.Pies.FirstOrDefault(x => x.PieId == pieId);
 
-    public IEnumerable<Pie> SearchPies(string searchQuery)
-    {
-        throw new NotImplementedException();
-    }
+    public IEnumerable<Pie> SearchPies(string searchQuery) => dbContext.Pies.Where(x => x.Name.Contains(searchQuery));
 }

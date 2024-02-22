@@ -1,5 +1,6 @@
 using BethanysPieShop.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,12 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(option =>
+    {
+        option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
+
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<BethanysPieShopDbContext>(options => 
     options.UseSqlServer(builder.Configuration["ConnectionStrings:BethanysPieShopConnection"])
